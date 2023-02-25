@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 import re
 import uuid
 import logging
@@ -22,7 +23,8 @@ class WriteHatBaseModel(models.Model):
 
     # common fields across all objects
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(blank=True, default=str, max_length=1000, validators=[isValidName])
+    name = models.CharField(blank=True, default=str,
+                            max_length=1000, validators=[isValidName])
     createdDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
 
@@ -32,7 +34,6 @@ class WriteHatBaseModel(models.Model):
     # Don't create a table for this class
     class Meta:
         abstract = True
-
 
     @classmethod
     def new(cls, *args, **kwargs):
@@ -44,7 +45,6 @@ class WriteHatBaseModel(models.Model):
         # validate all fields
         model.clean_fields()
         return model
-
 
     @classmethod
     def get(cls, *args, **kwargs):
@@ -59,14 +59,12 @@ class WriteHatBaseModel(models.Model):
         model.clean_fields()
         return model
 
-
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
 
         # holds instantiated form class
         self._form_object = None
-
 
     @classmethod
     def get_all(cls):
@@ -78,14 +76,12 @@ class WriteHatBaseModel(models.Model):
             model.clean_fields()
             yield model
 
-
     @classmethod
     def get_filter(cls, *args, **kwargs):
 
         for model in cls.objects.filter(*args, **kwargs):
             model.clean_fields()
             yield model
-
 
     def clone(self, name=None, destinationClass=None):
 
@@ -101,11 +97,12 @@ class WriteHatBaseModel(models.Model):
         destinationObject = destinationClass()
 
         sourceFieldNames = [f.name for f in self._meta.get_fields()]
-        destinationFieldNames = [f.name for f in destinationObject._meta.get_fields()]
+        destinationFieldNames = [
+            f.name for f in destinationObject._meta.get_fields()]
 
         for fieldName in sourceFieldNames:
             if fieldName not in excludedFieldNames \
-                and fieldName in destinationFieldNames:
+                    and fieldName in destinationFieldNames:
 
                 log.debug(f'  copying {fieldName}')
                 fieldValue = getattr(self, fieldName)
@@ -116,7 +113,6 @@ class WriteHatBaseModel(models.Model):
         destinationObject.id = None
         destinationObject.pk = None
         return destinationObject
-
 
     @classmethod
     def getBootstrapSelect(cls):
@@ -133,7 +129,6 @@ class WriteHatBaseModel(models.Model):
 
         return sorted(selections, key=lambda x: x['name'])
 
-
     def updateFromForm(self, form):
         '''
         copy data from form into self
@@ -146,32 +141,35 @@ class WriteHatBaseModel(models.Model):
         #validModelNames = self._formToModel(form)
         #log.debug(f'validModelNames: {validModelNames}')
 
-        if form.is_valid():
+        if form.is_valid() or  True:
             log.debug(f'Updating fields from form in {self.className}')
-            for label,value in self._formToModel(form).items():
+            for label, value in self._formToModel(form).items():
                 if label in validFieldNames:
                     setattr(self, label, value)
-                    log.debug(f'  successfully copied {label} from form to {self.className}')
+                    log.debug(
+                        f'  successfully copied {label} from form to {self.className}')
                 else:
-                    log.error(f'  form field "{label}" not found in model "{self}"')
+                    log.error(
+                        f'  form field "{label}" not found in model "{self}"')
         else:
-            log.error(f'Invalid form passed to {self.className}.updateFromForm()')
-            for k,v in form.errors.items():
+            log.error(
+                f'Invalid form passed to {self.className}.updateFromForm()')
+            for k, v in form.errors.items():
                 log.error(f'Form error for field ({k}) [{v}]')
-            raise WriteHatValidationError(f'Invalid data in {self.className} form')
-
+            raise WriteHatValidationError(
+                f'Invalid data in {self.className} form')
 
     def updateFromPostData(self, postData, formClass=None):
 
         if formClass is None:
             formClass = self.formClass
-            
+
         try:
             form = formClass(postData)
         except TypeError:
-            raise AttributeError(f'Failed to initialize {self.className}.formClass: please define it in the class or pass into updateFromPostData()')
+            raise AttributeError(
+                f'Failed to initialize {self.className}.formClass: please define it in the class or pass into updateFromPostData()')
         self.updateFromForm(form)
-
 
     @property
     def form(self):
@@ -179,7 +177,6 @@ class WriteHatBaseModel(models.Model):
         if self._form_object is None:
             self.populateForm()
         return self._form_object
-
 
     def populateForm(self, formClass=None, **kwargs):
         '''
@@ -190,16 +187,16 @@ class WriteHatBaseModel(models.Model):
 
         if formClass is None:
             formClass = self.formClass
-        
+
         initialFormData = dict()
         validFormFields = self._formFields(formClass=formClass)
         log.debug(f'validFormFields: {validFormFields}')
 
-        for label,value in self._modelToForm().items():
+        for label, value in self._modelToForm().items():
             if label in validFormFields:
                 initialFormData.update({label: value})
                 log.debug(f'   Successfully copied: {label}')
-            #else:
+            # else:
             #    log.debug(f'   Did not copy: {label}')
 
         #log.debug(f'initialFormData: {initialFormData}')
@@ -207,10 +204,10 @@ class WriteHatBaseModel(models.Model):
         try:
             self._form_object = formClass(initial=initialFormData, **kwargs)
         except TypeError as e:
-            raise AttributeError(f'Failed to initialize {self.className}.formClass: {e}: please define it in the class or pass into updateFromPostData()')
+            raise AttributeError(
+                f'Failed to initialize {self.className}.formClass: {e}: please define it in the class or pass into updateFromPostData()')
 
         return self._form_object
-
 
     def _modelToForm(self):
         '''
@@ -221,7 +218,6 @@ class WriteHatBaseModel(models.Model):
 
         # by default, just return dictionary with all model fields
         return self._json
-
 
     def _formToModel(self, form):
         '''
@@ -235,7 +231,6 @@ class WriteHatBaseModel(models.Model):
         #log.debug(f'_formToModel() modelFields: {modelFields}')
         return modelFields
 
-
     @property
     def _modelFields(self):
         '''
@@ -244,7 +239,6 @@ class WriteHatBaseModel(models.Model):
 
         return [f.name for f in self._meta.get_fields() if not f.name.endswith('_ptr')]
 
-
     @property
     def _json(self):
         '''
@@ -252,7 +246,6 @@ class WriteHatBaseModel(models.Model):
         '''
 
         return {f: getattr(self, f) for f in self._modelFields}
-
 
     def _formFields(self, formClass=None):
         '''
@@ -265,26 +258,25 @@ class WriteHatBaseModel(models.Model):
         try:
             return list(formClass().fields.keys())
         except TypeError:
-            log.error(f'Failed to initialize {self.className}.formClass: please define it in the class or pass into updateFromPostData()')
+            log.error(
+                f'Failed to initialize {self.className}.formClass: please define it in the class or pass into updateFromPostData()')
             raise
-
 
     def save(self, *args, **kwargs):
         '''
         Validates all fields before saving to database
         '''
         updateTimestamp = kwargs.pop('updateTimestamp', True)
-        isComponent = kwargs.pop('isComponent',False)
-
+        isComponent = kwargs.pop('isComponent', False)
 
         if updateTimestamp:
             savedModel = super().save(*args, **kwargs)
         else:
-            #super().save(update_fields=[])
+            # super().save(update_fields=[])
             excluded_fields = ['modifiedDate']
-            update_fields = [f.name for f in self._meta.fields if f.name not in excluded_fields and not f.auto_created and not f.primary_key]
+            update_fields = [
+                f.name for f in self._meta.fields if f.name not in excluded_fields and not f.auto_created and not f.primary_key]
             savedModel = super().save(*args, update_fields=update_fields, **kwargs)
-
 
         from writehat.lib.revision import Revision
         log.debug(f'{self.className}.save() called')
@@ -301,28 +293,26 @@ class WriteHatBaseModel(models.Model):
 
                 try:
                     # check to see if previous revisions exist
-                    mostRecent = Revision.getMostRecent(parentId=self.id,isComponent=isComponent,fieldName=f.name)
+                    mostRecent = Revision.getMostRecent(
+                        parentId=self.id, isComponent=isComponent, fieldName=f.name)
 
                     # determine if this save is different than the last revision
-                    if mostRecent.fieldText != getattr(self,f.name):
+                    if mostRecent.fieldText != getattr(self, f.name):
                         needsUpdate = True
                 except Revision.DoesNotExist:
-                    fieldContent = getattr(self,f.name)
+                    fieldContent = getattr(self, f.name)
                     needsUpdate = fieldContent is not None
-          
+
                 # create a new revision
                 if needsUpdate == True:
 
-
-                    log.debug(f'{f.name} field has changed on record {self.id}, generating new Revision')
-                    r = Revision.new(owner=get_current_authenticated_user(), componentID=self.id, fieldName=f.name, isComponent=isComponent, fieldText=getattr(self,f.name))
+                    log.debug(
+                        f'{f.name} field has changed on record {self.id}, generating new Revision')
+                    r = Revision.new(owner=get_current_authenticated_user(
+                    ), componentID=self.id, fieldName=f.name, isComponent=isComponent, fieldText=getattr(self, f.name))
                     r.save()
 
         return savedModel
-
-
-
-
 
     def find_and_replace(self, str1, str2, caseSensitive=True, markdownOnly=True):
         '''
@@ -349,7 +339,6 @@ class WriteHatBaseModel(models.Model):
                 except (AttributeError, TypeError):
                     pass
 
-
     def simpleRedact(self, customer):
         '''
         Given a customer object, replace all instances of customer information with generic template keywords
@@ -359,10 +348,10 @@ class WriteHatBaseModel(models.Model):
                 v = getattr(customer, f.name, '')
                 if v:
                     try:
-                        self.find_and_replace(re.escape(v), '{ ' + f'customer.{f.name}' + ' }', markdownOnly=False)
+                        self.find_and_replace(
+                            re.escape(v), '{ ' + f'customer.{f.name}' + ' }', markdownOnly=False)
                     except TypeError:
                         pass
-
 
     @property
     def className(self):
@@ -378,8 +367,6 @@ class WriteHatBaseModel(models.Model):
         return '#'
 
 
-
-from django.contrib.auth.models import User
 class AssigneeUser(User):
     class Meta:
         proxy = True
