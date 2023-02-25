@@ -7,7 +7,7 @@ var validators = {
 
 
 // takes a string and returns a version with illegal characters stripped out
-function validate_name(s, strict=false) {
+function validate_name(s, strict = false) {
   if (strict) {
     return clean_str(s, validators.strict_names);
   } else {
@@ -16,7 +16,7 @@ function validate_name(s, strict=false) {
 }
 
 
-function clean_str(s, whitelist=validators.names) {
+function clean_str(s, whitelist = validators.names) {
   var chars = [];
   for (i = 0; i < s.length; i++) {
     var char = s[i];
@@ -35,7 +35,7 @@ function validate() {
 
 
 function validate_strict() {
-  var cleaned = validate_name($(this).val(), strict=true);
+  var cleaned = validate_name($(this).val(), strict = true);
   $(this).val(cleaned);
 }
 
@@ -43,15 +43,15 @@ function validate_strict() {
 function bind_validators() {
 
   //$('input.name-validation').unbind(validate);
-  $('input.name-validation').keyup(validate);
-
-  //$('input.strict-name-validation').unbind(validate_strict);
-  $('input.strict-name-validation').keyup(validate_strict);
-
-  $('i.fa-save').each(function() {
-    //$(this).closest('button').unbind(highlight_missing_fields);
-    $(this).closest('button').click(highlight_missing_fields);
-  })
+  /* $('input.name-validation').keyup(validate);
+ 
+   //$('input.strict-name-validation').unbind(validate_strict);
+   $('input.strict-name-validation').keyup(validate_strict);
+ 
+   $('i.fa-save').each(function() {
+     //$(this).closest('button').unbind(highlight_missing_fields);
+     $(this).closest('button').click(highlight_missing_fields);
+   })*/
 
 }
 
@@ -75,7 +75,7 @@ function highlight_missing_fields(e) {
 
   // all fields marked as required
   // and all selectpicker fields
-  form.find('[required]').each(function() {
+  form.find('[required]').each(function () {
     if (!($(this).val())) {
       var highlight_el = $(this).closest('tr');
       if (highlight_el.length < 1) {
