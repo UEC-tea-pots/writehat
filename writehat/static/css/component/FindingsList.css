@@ -150,22 +150,22 @@ div.finding-content > div.impact ul li {
   margin: 4px;
 }
 
-div.finding div.finding-content > div.category::before           { content: "Category" !important; }
-div.finding div.finding-content > div.affected-resources::before { content: "Affected Resources" !important; }
-div.finding div.finding-content > div.description::before        { content: "Description" !important; }
-div.finding div.finding-content > div.background::before         { content: "Background" !important; }
-div.finding div.finding-content > div.remediation::before        { content: "Remediation" !important; }
-div.finding div.finding-content > div.references::before         { content: "References" !important; }
+div.finding div.finding-content > div.category::before           { content: "カテゴリー" !important; }
+div.finding div.finding-content > div.affected-resources::before { content: "影響のあるリソース" !important; }
+div.finding div.finding-content > div.description::before        { content: "説明" !important; }
+div.finding div.finding-content > div.background::before         { content: "背景" !important; }
+div.finding div.finding-content > div.remediation::before        { content: "修正方法" !important; }
+div.finding div.finding-content > div.references::before         { content: "参考文献" !important; }
 
 /* CVSS SPECIFIC */
 
-div.finding div.finding-content > div.vector::before             { content: "CVSS3 Vector" !important; }
-div.finding div.finding-content > div.tools-used::before         { content: "Tools Used" !important; }
-div.finding div.finding-content > div.poc::before                { content: "Proof of Concept" !important; }
+div.finding div.finding-content > div.vector::before             { content: "CVSS3ベクター" !important; }
+div.finding div.finding-content > div.tools-used::before         { content: "使用したツール" !important; }
+div.finding div.finding-content > div.poc::before                { content: "PoC" !important; }
 
 /* DREAD SPECIFIC */
 
 div.finding div.finding-content > div.dread-category::before     { content: attr(category) !important; }
-div.finding div.finding-content > div.impact::before             { content: "Impact" !important; }
+div.finding div.finding-content > div.impact::before             { content: "影響" !important; }
 
 /* PROACTIVE SPECIFIC */
