@@ -10,7 +10,10 @@ class TitlePageForm(ComponentForm):
    # ComponentID = forms.UUIDField(label='Report ID')
     company = forms.CharField(label='Company Name', required=False)
     assessmentType = forms.CharField(label='Report Title', required=False)
-    reportDate = forms.DateTimeField(widget=forms.SelectDateWidget(years=years), label='Report Date', required=False)
+    reportDate = forms.DateTimeField(widget=forms.SelectDateWidget(
+        years=years), label='Report Date', required=False)
+    text = forms.CharField(
+        label='Component Text', widget=forms.Textarea, max_length=50000, required=False)
 
 
 class Component(BaseComponent):
@@ -20,9 +23,10 @@ class Component(BaseComponent):
     fieldList = {
         'company': StringField(),
         'assessmentType': StringField(templatable=True),
-        'reportDate': StringField()
+        'reportDate': StringField(),
+        'text': StringField(markdown=True, templatable=True)
     }
     htmlTemplate = 'componentTemplates/TitlePage.html'
     includeInToc = False
     iconType = 'fas fa-file-alt'
-    iconColor = '#fce803' # yellow / gold
+    iconColor = '#fce803'  # yellow / gold
