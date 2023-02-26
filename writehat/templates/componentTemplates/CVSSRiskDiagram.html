@@ -1,5 +1,12 @@
+{% load custom_tags %}
 <section class="l{{ level }} component{% if pageBreakBefore %} page-break{% endif %}" id="container_{{ id }}">
   {% include 'componentTemplates/Heading.html' %}
+
+  <div class='markdown-align-justify'>
+    <p>
+      {% markdown text %}
+    </p>
+  </div>
 
   <div id='figure_{{ id }}' class="figure">
 
@@ -77,7 +84,7 @@
     </div>
 
     <figcaption class='cvss-diagram-figure-caption'>
-      <span class='figure-number'>Figure <span class='figure-counter'></span>.</span> CVSS Risk Diagram
+      <span class='figure-number'>図 <span class='figure-counter'></span>.</span> CVSS Risk Diagram
     </figcaption>
 
   </div>
