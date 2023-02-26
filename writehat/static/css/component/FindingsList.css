@@ -155,7 +155,7 @@ div.finding div.finding-content > div.affected-resources::before { content: "影
 div.finding div.finding-content > div.description::before        { content: "説明" !important; }
 div.finding div.finding-content > div.background::before         { content: "背景" !important; }
 div.finding div.finding-content > div.remediation::before        { content: "改善策" !important; }
-div.finding div.finding-content > div.references::before         { content: "参考文献" !important; }
+div.finding div.finding-content > div.references::before         { content: "参考情報" !important; }
 
 /* CVSS SPECIFIC */
 
