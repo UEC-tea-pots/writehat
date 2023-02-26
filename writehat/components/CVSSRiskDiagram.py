@@ -4,7 +4,7 @@ from .base import *
 log = logging.getLogger(__name__)
 
 
-class MarkdownComponentForm(ComponentForm):
+class CVSSRiskDiagramForm(ComponentForm):
 
     text = forms.CharField(
         label='Component Text', widget=forms.Textarea, max_length=50000, required=False)
@@ -20,6 +20,7 @@ class Component(BaseComponent):
     fieldList = {
         'text': StringField(markdown=True, templatable=True),
     }
+    formClass = CVSSRiskDiagramForm
 
     @property
     def figures(self):
