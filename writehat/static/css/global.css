@@ -391,3 +391,7 @@ div.d2h-file-wrapper table{
   max-height: 260px !important;
   overflow-y: auto;
 }
+
+p {
+  text-align: left !important;
+}
