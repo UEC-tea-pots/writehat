@@ -30,7 +30,6 @@ div.severity-legend div.severity {
   height: 2em;
   display: flex;
   align-items: center;
-  text-shadow: 0 0 10px rgba(0,0,0,.3);
 }
 
 
@@ -40,14 +39,17 @@ h1.toc-member {
   font-size: 2rem;
 }
 
-p, div > ul, div > ol, td {
+p,
+div>ul,
+div>ol,
+td {
   line-height: 1.6em;
   overflow-wrap: break-word;
 }
 
-div.finding-content > div > pre > code, 
-div.finding-content > div > pre {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-    max-height: calc(100% - 2em);
+div.finding-content>div>pre>code,
+div.finding-content>div>pre {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  max-height: calc(100% - 2em);
 }
