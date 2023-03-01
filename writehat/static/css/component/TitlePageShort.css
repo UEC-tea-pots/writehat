@@ -3,17 +3,16 @@
 }
 
 #title-page-short-div img#title-logo {
-    width: 224px; 
+    width: 224px;
     height: auto;
 }
 
-#title-page-short-div .report-title, #title-page-short-div .report-subtitle {
-    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+#title-page-short-div .report-title,
+#title-page-short-div .report-subtitle {
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 24pt;
-    font-variant: small-caps;
 }
 
 #title-page-short-div .report-subtitle {
     font-weight: bold;
 }
-
