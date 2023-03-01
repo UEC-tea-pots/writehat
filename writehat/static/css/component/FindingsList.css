@@ -169,6 +169,6 @@ div.finding div.finding-content > div.dread-category::before     { content: attr
 div.finding div.finding-content > div.impact::before             { content: "影響" !important; }
 
 /* PROACTIVE SPECIFIC */
-p {
+div.finding div.finding-content > div > p {
     text-align: left !important;
   }
