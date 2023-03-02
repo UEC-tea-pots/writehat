@@ -395,3 +395,8 @@ div.d2h-file-wrapper table{
 p {
   text-align: left !important;
 }
+
+code {
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  font-weight: normal !important;   
+}
