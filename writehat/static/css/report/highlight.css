@@ -63,7 +63,9 @@ hl[mono] {
 
 /* all code */
 code {
-  font-family: monospace;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+  font-weight: normal !important;   
+  font-variant-ligatures: contextual;
   overflow-wrap: break-word;
   color: #f8f8f2;
   background-color: rgb(0,0,0,.85);
