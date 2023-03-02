@@ -102,17 +102,11 @@ hl:not(hl[mono]), :not(pre) > code, .severity-highlight {
   padding-right: .3em;
   padding-top: .2em;
   padding-bottom: .2em;
-  border-radius: .3em;
+  border-radius: .2em;
   font-weight: bold;
-
 }
 
 hl:not(hl[mono]), .severity-highlight {
   color: var(--text-color);
   background-color: var(--background-color);
-}
-
-code {
-  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
-  font-weight: normal !important;   
 }
